@@ -17,7 +17,8 @@ i=0
  10.08.18 попытка запуститься под Ubuntu
  21.08.17 нет драйвера на schneder electric для Ubuntu
  ставим ОВЕН  rs485 -- USB
- Р А Б О Т А Е М   с GITHUB 
+ Р А Б О Т А Е М   с GITHUB
+ ложный старт 
 
 '''
 #logging.basicConfig()
