@@ -15,6 +15,8 @@ i=0
  стыковки IBM PC с INVT для экструдера 7
  03.10.18 The END 
  10.08.18 попытка запуститься под Ubuntu
+ 21.08.17 нет драйвера на schneder electric для Ubuntu
+ ставим ОВЕН  rs485 -- USB
 
 '''
 #logging.basicConfig()
