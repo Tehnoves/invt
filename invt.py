@@ -19,6 +19,9 @@ i=0
  ставим ОВЕН  rs485 -- USB
  Р А Б О Т А Е М   с GITHUB
  ложный старт 
+ INVT №3 "rtu", port="/dev/ttyS0",stopbits = 1, bytesize = 8, parity = 'N', baudrate= 19200  ---  еобходимо прошить INVT   (P14.0)  
+ !! сделать многопоточность и логгирование
+
 
 '''
 #logging.basicConfig()
@@ -29,7 +32,7 @@ i=0
 #unit= the slave unit this request is targeting
 #address= the starting address to read from
 
-client= ModbusClient(method = "rtu", port="/dev/usb6",stopbits = 1, bytesize = 8, parity = 'N', baudrate= 19200)
+client= ModbusClient(method = "rtu", port="/dev/ttyS0",stopbits = 1, bytesize = 8, parity = 'N', baudrate= 19200)
 print (client)
 
 while True:
