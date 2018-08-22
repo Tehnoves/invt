@@ -9,6 +9,9 @@ from   pymodbus.client.sync import ModbusSerialClient as ModbusClient #initializ
 from   pymodbus.transaction import ModbusRtuFramer
 
 import logging
+import threading
+
+
 i=0
 '''
  01.08.18 ОМА АВК Козырев С.А старт разработки
@@ -21,6 +24,7 @@ i=0
  ложный старт 
  INVT №3 "rtu", port="/dev/ttyS0",stopbits = 1, bytesize = 8, parity = 'N', baudrate= 19200  ---  еобходимо прошить INVT   (P14.0)  
  !! сделать многопоточность и логгирование
+ проверка rsa
 
 
 '''
@@ -32,16 +36,37 @@ i=0
 #unit= the slave unit this request is targeting
 #address= the starting address to read from
 
+def two_sec ():
+    global l
+    time.sleep(5)
+    l = 1
+
 client= ModbusClient(method = "rtu", port="/dev/ttyS0",stopbits = 1, bytesize = 8, parity = 'N', baudrate= 19200)
 print (client)
+
+tmp = datetime.now()    
+logger = logging.getLogger("диагностика")
+logger.setLevel(logging.INFO)
+    
+    # create the logging file handler
+fh = logging.FileHandler("new_snake.log")
+ 
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+fh.setFormatter(formatter)
+    # add handler to logger object
+logger.addHandler(fh)
+logger.info("Program started сгодня: "+str(tmp)) 
 
 while True:
                                                       #Connect to the serial modbus server
     connection = client.connect()
     print (connection)
-
+    l = 0
+    my_thread = threading.Thread(target=two_sec, name='two', args=())
+    my_thread.start() 	
                                                       #Starting add, num of reg toc read, slave unit.
-    try:                                                                                    
+    try:  
+	tmp = datetime.now()                                                                                  
         result = client.read_holding_registers(0x070b,4,unit= 3)
     except:
         print ("Ошибка адреса 0x070b")
@@ -226,7 +251,8 @@ while True:
     try:                                                                            
         result = client.read_holding_registers(0x071b,unit= 3)          #   0x071b
     except:
-        print ("Ошибка адреса 0x071b")    
+        print ("Ошибка адреса 0x071b")
+	logger.info(" П О Т Е Р Я   С В Я З И   :"  + str(tmp)) 	   
     qt15='{:=5d}'.format(result.registers[0])
     qt15_ = '{:0=4d}'.format(result.registers[0])
     #print(qt15_)
